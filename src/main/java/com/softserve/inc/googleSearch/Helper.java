@@ -80,7 +80,7 @@ public class Helper {
 		for (WebElement elNews : elementsNews) {
 			title = elNews.findElement(By.className("_Dk")).getText();
 			description = elNews.findElement(
-					By.xpath("//ol[@id='rso']/div[3]/li/span")).getText();
+					By.xpath("//ol[@id='rso']/div[2]/li/span")).getText();
 //			System.out.println("-----------\n" + title + "\n");
 //			System.out.println(description);
 
