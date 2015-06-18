@@ -90,6 +90,7 @@ public class Helper {
 
 	public void printResult() {
 		System.out.println("Result:");
+		System.out.println(googleSearch.size());
 		for (String key : googleSearch.keySet()) {
 			System.out.println("-----------\n" + key + " \n"
 					+ googleSearch.get(key));
