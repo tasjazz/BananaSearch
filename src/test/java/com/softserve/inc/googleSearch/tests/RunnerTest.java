@@ -13,20 +13,15 @@ public class RunnerTest {
 	static Logger logger =Logger.getLogger(RunnerTest.class);
 	private final String url = "http://www.google.com";
 	private final String searchQuery = "banana";
-	private static final int COUNT = 20;
+	private static final int COUNT = 10;
 
-	@BeforeTest
-	public void startUpBrovser(){
-		
-		logger.info("App Start");
+	@Test
+	public void testBananaCount(){
 		GoogleSearchPage googleSearchPage = GoogleSearchPage.load(BrowserRepository.getFirefoxByTemporaryProfile(), url);
 		googleSearchPage.searchQuery(searchQuery);
 		googleSearchPage.addFixedNumberResultsToMap(COUNT);
-	}
-	
-	@Test
-	public void testBananaCount(){
-		
+		googleSearchPage.printResult();
+		System.out.println("Count BANANA's = "+ googleSearchPage.countResult(searchQuery));
 	}
 	
 	@AfterTest

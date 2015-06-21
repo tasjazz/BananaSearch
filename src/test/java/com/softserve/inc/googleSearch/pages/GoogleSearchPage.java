@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
@@ -18,7 +20,6 @@ public class GoogleSearchPage {
 
 	static Logger logger = Logger.getLogger(GoogleSearchPage.class);
 	private Map<String, String> googleSearch = new HashMap();
-
 	private WebElement searchField;
 	private WebElement nextLink;
 
@@ -40,7 +41,6 @@ public class GoogleSearchPage {
 	public void searchQuery(String query) {
 		searchField.sendKeys(query);
 		searchField.sendKeys(Keys.RETURN);
-
 	}
 
 	/**
@@ -65,15 +65,14 @@ public class GoogleSearchPage {
 			title = res.findElement(By.className("r")).getText();
 			description = res.findElement(By.className("st")).getText();
 			googleSearch.put(title, description);
-
-			System.out.println(googleSearch.size());
+			
+			logger.info(googleSearch.size());
 			if (googleSearch.size() == count)
 				break;
 		}
 	}
 
 	private void clickNextPage() {
-
 		this.nextLink = ContextVisible.get().getPresentWebElement(
 				By.xpath("//a[@id='pnnext']/span[2]"));
 		nextLink.click();
@@ -89,16 +88,40 @@ public class GoogleSearchPage {
 				clickNextPage();
 				
 			}
+			try {
+				Thread.sleep(500);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
-
 	}
 
 	public void printResult() {
-		System.out.println("Result:");
-		System.out.println(googleSearch.size());
 		for (String key : googleSearch.keySet()) {
 			System.out.println("-----------\n" + key + " \n"
 					+ googleSearch.get(key));
 		}
+	}
+
+	/**
+	 * 
+	 * @param mathc string wich are finding in result
+	 * @return number of found words in the result
+	 */
+	public int countResult(String mathc) {
+		int count = 0;
+		for (String key : googleSearch.keySet()) {
+			
+			    Pattern p = Pattern.compile("\\b+"+ mathc + "+", Pattern.CASE_INSENSITIVE);
+			    
+			    Matcher m = p.matcher(key);
+			    while(m.find()) count++;
+			    
+			    m = p.matcher(googleSearch.get(key));
+			    while(m.find()) count++;
+		}
+		return count;
+
 	}
 }
