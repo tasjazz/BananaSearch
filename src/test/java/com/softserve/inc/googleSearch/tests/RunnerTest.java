@@ -14,7 +14,7 @@ public class RunnerTest {
 	static Logger logger =Logger.getLogger(RunnerTest.class);
 	private static final String URL = "http://www.google.com";
 	private static final String SEARCH_QUERY = "banana";
-	private static final int RESULT_COUNT = 10;
+	private static final int RESULT_COUNT = 25;
 	private static final int RESULT_WORD = 23;
 	
 	
@@ -26,7 +26,7 @@ public class RunnerTest {
 		googleSearchPage.addFixedNumberResultsToMap(RESULT_COUNT);
 		googleSearchPage.printResult();
 //		System.out.println("Count BANANA's = "+ googleSearchPage.countResult(SEARCH_QUERY));
-		Assert.assertEquals(RESULT_WORD, googleSearchPage.countResult(SEARCH_QUERY));
+		Assert.assertEquals(googleSearchPage.countResult(SEARCH_QUERY), RESULT_WORD);
 		
 	}
 	

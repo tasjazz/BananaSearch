@@ -22,14 +22,12 @@ public class GoogleSearchPage {
 	private Map<String, String> googleSearch = new HashMap();
 	private WebElement searchField;
 	private WebElement nextLink;
+	private WebElement allRes;
 
 	public GoogleSearchPage() {
 		logger.info("GoogleSearchPage constructor");
-
-		this.searchField = ContextVisible.get().getVisibleWebElement(
+		this.searchField = ContextVisible.get().getPresentWebElement(
 				By.id("lst-ib"));
-		// this.nextLink =
-		// ContextVisible.get().getVisibleWebElement(By.xpath("//a[@id='pnnext']/span[2]"));
 	}
 
 	public static GoogleSearchPage load(IBrowser browser, String url) {
@@ -54,7 +52,7 @@ public class GoogleSearchPage {
 		String description = null;
 		List<WebElement> results = new ArrayList<WebElement>();
 
-		WebElement allRes = ContextVisible.get().getPresentWebElement(
+		WebElement allRes = ContextVisible.get().getVisibleWebElement(
 				By.id("ires")); // data from all page
 		List<WebElement> elements = allRes.findElements(By.className("srg"));
 		for (WebElement el : elements) {
@@ -73,20 +71,14 @@ public class GoogleSearchPage {
 	}
 
 	private void clickNextPage() {
-		this.nextLink = ContextVisible.get().getPresentWebElement(
-				By.xpath("//a[@id='pnnext']/span[2]"));
-		nextLink.click();
+		ContextVisible.get().getPresentWebElement(By.id("pnnext")).click();
 	}
 
 	public void addFixedNumberResultsToMap(int count) {
-
 		while (googleSearch.size() < count) {
-
 			getTitleAndDescriptionFromResult(count);
-
 			if (googleSearch.size() < count) {
 				clickNextPage();
-				
 			}
 			try {
 				Thread.sleep(500);
@@ -114,10 +106,8 @@ public class GoogleSearchPage {
 		for (String key : googleSearch.keySet()) {
 			
 			    Pattern p = Pattern.compile("\\b+"+ mathc + "+", Pattern.CASE_INSENSITIVE);
-			    
 			    Matcher m = p.matcher(key);
 			    while(m.find()) count++;
-			    
 			    m = p.matcher(googleSearch.get(key));
 			    while(m.find()) count++;
 		}
