@@ -1,6 +1,7 @@
 package com.softserve.inc.googleSearch.tests;
 
 import org.apache.log4j.Logger;
+import org.testng.Assert;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
@@ -11,17 +12,22 @@ import com.softserve.inc.googleSearch.tools.WebDriverUtils;
 
 public class RunnerTest {
 	static Logger logger =Logger.getLogger(RunnerTest.class);
-	private final String url = "http://www.google.com";
-	private final String searchQuery = "banana";
-	private static final int COUNT = 10;
+	private static final String URL = "http://www.google.com";
+	private static final String SEARCH_QUERY = "banana";
+	private static final int RESULT_COUNT = 10;
+	private static final int RESULT_WORD = 23;
+	
+	
 
 	@Test
 	public void testBananaCount(){
-		GoogleSearchPage googleSearchPage = GoogleSearchPage.load(BrowserRepository.getFirefoxByTemporaryProfile(), url);
-		googleSearchPage.searchQuery(searchQuery);
-		googleSearchPage.addFixedNumberResultsToMap(COUNT);
+		GoogleSearchPage googleSearchPage = GoogleSearchPage.load(BrowserRepository.getFirefoxByTemporaryProfile(), URL);
+		googleSearchPage.searchQuery(SEARCH_QUERY);
+		googleSearchPage.addFixedNumberResultsToMap(RESULT_COUNT);
 		googleSearchPage.printResult();
-		System.out.println("Count BANANA's = "+ googleSearchPage.countResult(searchQuery));
+//		System.out.println("Count BANANA's = "+ googleSearchPage.countResult(SEARCH_QUERY));
+		Assert.assertEquals(RESULT_WORD, googleSearchPage.countResult(SEARCH_QUERY));
+		
 	}
 	
 	@AfterTest
