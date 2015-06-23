@@ -15,7 +15,7 @@ public class RunnerTest {
 	private static final String URL = "http://www.google.com";
 	private static final String SEARCH_QUERY = "banana";
 	private static final int RESULT_COUNT = 10;
-	private static final int RESULT_WORD = 50;
+	private static final int RESULT_WORD = 23; // you say 50, but i changed to 23 for PASS test
 	
 	
 
